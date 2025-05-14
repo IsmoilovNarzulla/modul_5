@@ -1,4 +1,5 @@
 import asyncio
+import datetime
 import logging
 import sys
 from os import getenv
@@ -29,6 +30,8 @@ async def command_start_handler(message: Message) -> None:
     await message.answer(f"Salom, {html.bold(message.from_user.full_name)}!")
 
 
+
+
 @dp.message()
 async def echo_handler(message: Message) -> None:
     """
@@ -40,6 +43,32 @@ async def echo_handler(message: Message) -> None:
         await message.send_copy(chat_id=message.chat.id)
     except TypeError:
         await message.answer("Yana urinib kuring!")
+
+    from datetime import datetime
+    @dp.message()
+    async def yoshni_aniqlah(message: Message) -> None:
+        try:
+            text = message.text.strip()
+            if text.isdigit():
+                number = int(text)
+                current_year = datetime.now().year
+                if 1925 <= number <= current_year:
+                    await message.answer(f"Siz {number} yoshda ekansiz.")
+                
+                elif 1 <= number <= 100:
+                    birth_year = current_year - number
+                    await message.answer(f"Siz {birth_year}  yilda tug'ilgan ekansiz.")
+                else:
+                    await message.answer("Iltimos tugulgan yilni yoki yoshni 100 yil oraliqda kriting!")
+            else:
+                await message.send_copy(chat_id=message.chat.id)
+        except TypeError:
+            avait.message.answer("Yana urinib kuring!")
+                
+
+
+
+
 
 
 async def main() -> None:
