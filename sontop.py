@@ -54,10 +54,10 @@ async def lastname_handler(message: Message,state:FSMContext):
 async def phone_phone_handler(message: Message,state:FSMContext) :
     await state.update_data(phone=message.text)
     await message.answer("Manzilingizni kriting: ")
-    await state.set_state(GameState.confirm)
+    await state.set_state(GameState.address)
 
-@dp.message(GameState.confirm)
-async def confirm_handler(message: Message,state:FSMContext):
+@dp.message(GameState.address)
+async def address_handler(message: Message,state:FSMContext):
     await state.update_data(address=message.text)
     state_data = await state.get_data()
     await state.update_data(id=await message.send_copy(chat_id=message.chat.id),
@@ -72,17 +72,21 @@ async def confirm_handler(message: Message,state:FSMContext):
         f"Familiya: {state_data.get('lastname')}\n"
         f"Telefon: {state_data.get('phone')}\n"
         f"Manzil: {state_data.get('address')}\n"
-        "Ma'lumotlar to‘g‘rimi? (ha/yo'q)"
     )
     await message.answer(msg)
-    text = message.msg
+    await message.answer("Ma'lumotlar to‘g‘rimi? (ha/yo'q)")
+    await state.set_state(GameState.confirm)
+
+@dp.message(GameState.confirm)
+async def confirm_handler(message: Message,state:FSMContext):
+    text =  message.text
     if text.lower() == "ha":
+        await state.update_data(confirmed=True)
         await state.set_state(GameState.son)
 
-    else:
-        await message.answer("Boshidan boshlaymiz")
-        await state.clear()
-        await state.set_state(GameState.fullname)
+    elif text.lower() == "yoq":
+        await state.update_data(confirmed=False)
+
 
 
 @dp.message(GameState.son)
