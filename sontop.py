@@ -4,7 +4,7 @@ import random
 import sys
 from os import getenv
 import psycopg2
-from tabulate import tabulate
+
 
 
 from aiogram import Bot, Dispatcher, Router
@@ -205,29 +205,6 @@ class Database:
         self.curr.close()
         self.conn.close()
 
-    # def get_chat_id(self, chat_id=None):
-    #     if chat_id:
-    #         query = f"""SELECT chat_id FROM users WHERE chat_id={chat_id};"""
-    #     else:
-    #         query = f"""SELECT chat_id FROM users;"""
-    #     curr = self.execute(query)
-    #     return curr.fetchall()
-    
-    # def insert_user(self,datas):
-    #     chat_id = datas.get("chat_id")
-    #     firstname = datas.get("firstname")
-    #     lastname = datas.get("lastname")
-    #     phone = datas.get("phone")
-    #     address = datas.get("address")
-    #     self.curr.execute(
-    #         """INSERT INTO users (chat_id, firstname, lastname, phone, address)
-    #            VALUES(%s,%s,%s,%s,%s)ON CONFLICT (chat_id) DO NOTHING
-    #         """
-    #
-    #     )
-
-
-        
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, stream=sys.stdout)
