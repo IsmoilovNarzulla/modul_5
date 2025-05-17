@@ -36,7 +36,7 @@ async def command_start_handler(message: Message, state: FSMContext):
 
 @dp.message(Regester.firstname)
 async def firstname_handler(message: Message, state: FSMContext):
-    await state.update_data(firstame=message.text)
+    await state.update_data(firstname=message.text)
     await message.answer("Familiyangizni kiriting:")
     await state.set_state(Regester.lastname)
 
@@ -59,7 +59,7 @@ async def address_handler(message: Message, state: FSMContext):
     chat_id = message.chat.id
     datas = {
             "chat_id":chat_id,
-            "firstame":state_data.get('firstame'),
+            "firstname":state_data.get('firstname'),
             "lastname":state_data.get('lastname'),
             "phone":state_data.get('phone'),
             "address":state_data.get('address')
@@ -67,7 +67,7 @@ async def address_handler(message: Message, state: FSMContext):
     await state.update_data(datas=datas)
 
     msg = (
-        f"Ism: {state_data.get('firstame')}\n"
+        f"Ism: {state_data.get('firstname')}\n"
         f"Familiya: {state_data.get('lastname')}\n"
         f"Telefon: {state_data.get('phone')}\n"
         f"Manzil: {state_data.get('address')}\n"
