@@ -7,7 +7,7 @@ import psycopg2
 
 
 
-from aiogram import Bot, Dispatcher, Router
+from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart
@@ -201,6 +201,16 @@ class Database:
         except Exception as e:
             print(f" Foydalanuvchini qo‘shishda xatolik: {e}")
 
+    def save_stats(self, chat_id, attempts):
+        try:
+            self.curr.execute("""
+                INSERT INTO stats (chat_id, attempts)
+                VALUES (%s, %s)
+            """, (chat_id, attempts))
+            self.conn.commit()
+        except Exception as e:
+            print(f"Statistikani yozishda xatolik: {e}")
+
     def close(self):
         self.curr.close()
         self.conn.close()
@@ -209,6 +219,7 @@ class Database:
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, stream=sys.stdout)
     asyncio.run(main())
+
 
 
 
